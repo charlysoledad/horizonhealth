@@ -21,9 +21,9 @@
  */
 const mysql = require ( 'mysql' );
 const dbConfig = {
-  host: 'localhost',
+  host: 'junction.proxy.rlwy.net',
   user: 'root',
-  password: '1234',
+  password: 'LmLuOARbhmianYVMjAgzpRKeVRyqBYug',
   database: 'horizonhealth'
 };
 
