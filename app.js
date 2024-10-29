@@ -1,43 +1,57 @@
 /*:------------------------------------------------------------------------------------------------------
  *:                         HorizonHealth                          
- *:         Archivo de para manipular la base de datos con el CRUD           
+ *:         Archivo de configuración y manejo de rutas principales           
  *: Archivo       : app.js
  *: Autor         : Rodrigo Macias Ruiz, Sergio Antonio López Delgado y Manuel Mijares Lara.
- *:                 
  *: Fecha         : 09/10/2024
  *: Herramienta   : JavaScript con Express 
- *: Descripción   : Se realizará un CRUD, para realizar el back-end del SPA
- *: Ult.Modif.    : 09/10/2024
- *: Fecha: 09/10/2024 
- *: Modificó: Rodrigo Macias Ruiz
- *: Modificación: Se realizará un CRUD para manipular el back-end
+ *: Descripción   : Configura y maneja las rutas de la aplicación HorizonHealth
+ *: Ult.Modif.    : 26/10/2024
+ *: Modificación: Inclusión de rutas para controladores estándar y premium
  *:======================================================================================================
- *: Modificación 1
- *: 09/10/2024: 
- *: Nombre : Rodrigo Macias Ruiz, Sergio Antonio López Delgado y Manuel Mijares Lara.
- *: Se realizó una prueba de conexión de la base de datos
- *: Modificación 2
- *: 15/10/2024: 
- *: Nombre : Rodrigo Macias Ruiz.
- *: Se importo el controlador de usuarios para poder usarlo en la aplicación
- *: 17/10/2024: 
- *: Nombre : Rodrigo Macias Ruiz.
- *: Se agrego la ruta para el método de inicio de sesión
- *:------------------------------------------------------------------------------------------------------
  */
 
- const express = require ( 'express' );
- const app = express ();
- const db = require ( './db' );
+ const express = require('express');
+ const app = express();
+ const db = require('./db');
+ const bodyParser = require('body-parser');
+ 
+ // Middleware
+ app.use(bodyParser.json()); // Manejo de JSON
+ app.use(bodyParser.urlencoded({ extended: true }));
+ 
+ // Importar controladores
+ const actividadController = require('./actividadController');
+ const ejercicioController = require('./ejercicioController');
+ const frasesController = require('./frasesController');
+ const lecturaController = require('./lecturaController');
+ const meditacionController = require('./meditacionController');
  const controladorUsuarios = require('./controladorUsuarios');
- app.use(express.json());
+ const contactRouter = require('./contactController'); 
 
-// Ruta para registrar usuario
-app.post('/register', usuariosController.registerUser);
-// Ruta para iniciar sesión
-app.post('/login', usuariosController.loginUser);
+ // Rutas de controladores
+ app.use('/api/actividades', actividadController);
+ app.use('/api/ejercicios', ejercicioController);
+ app.use('/api/frases', frasesController);
+ app.use('/api/lecturas', lecturaController);
+ app.use('/api/meditacion', meditacionController);
+ app.use('/api/usuarios', controladorUsuarios); 
+// Middleware para interpretar JSON
+app.use(express.json());
+// Ruta para el formulario de contacto
+app.use('/api', contactRouter);
 
-app.listen(3100, () => {
-    console.log('Servidor escuchando en el puerto 3100');
-});
+
+ // Ruta de prueba de conexión
+ app.get('/', (req, res) => {
+     res.send('Conexión exitosa con HorizonHealth API');
+ });
+ 
+ // Configuración del puerto
+ const PORT = process.env.PORT || 3000;
+ app.listen(PORT, () => {
+     console.log(`Servidor escuchando en el puerto ${PORT}`);
+ });
+ 
+ module.exports = app;
  
