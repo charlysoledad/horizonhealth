@@ -18,8 +18,8 @@
  // Obtener lecturas estándar
  router.get('/lecturas', async (req, res) => {
      try {
-         const [rows] = await db.query('SELECT * FROM lectura');
-         res.json(rows);
+         const rows = await db.query('SELECT * FROM lectura');
+         res.status(200).json({data: rows});
      } catch (error) {
          console.error(error);
          res.status(500).json({ error: 'Error al obtener lecturas' });
