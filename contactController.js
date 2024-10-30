@@ -19,7 +19,7 @@ router.post('/contact', async (req, res) => {
     // Opciones del correo
     const mailOptions = {
         from: correo,
-        to: 'correo_empresa@dominio.com', // Reemplaza con el correo de la empresa
+        to: 'csunset.wellness.hh@gmail.com',
         subject: 'Nuevo mensaje de contacto',
         text: `
         Nombre: ${nombre} ${apellido}
